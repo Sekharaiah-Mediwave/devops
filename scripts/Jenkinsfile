@@ -4,7 +4,7 @@ pipeline {
     stage('Build Services 1') {
       parallel {
         stage('Build goal') {
-          if (changeRequest "*/goal/*") {
+          if (changeRequest './goal') {
             // Execute this code block if the changes in goal directory
           }
           steps {
@@ -317,7 +317,7 @@ pipeline {
         }
 
         stage('Deploy goal') {
-          if (changeRequest "*/goal/*") {
+          if (changeRequest './goal') {
             // Execute this code block if the changes in goal directory
           }
         steps {
