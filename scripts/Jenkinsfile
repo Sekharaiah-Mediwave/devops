@@ -4,7 +4,7 @@ pipeline {
     stage('Build Services 1') {
       parallel {
         stage('Build goal') {
-          when {
+          if {
             changeRequest target: "*/goal/*"
           }
           steps {
@@ -317,7 +317,7 @@ pipeline {
         }
 
         stage('Deploy goal') {
-          when {
+          if {
             changeRequest target: "*/goal/*"
           }
         steps {
