@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: $MAIA3_NAMESPACE
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phr-${MAIA3_NAMESPACE}-service-upload
+  namespace: $MAIA3_NAMESPACE
+spec:
+  selector:
+    matchLabels:
+      app: phr-${MAIA3_NAMESPACE}-service-upload
+  template:
+    metadata:
+      labels:
+        app: phr-${MAIA3_NAMESPACE}-service-upload
+    spec:
+      containers:
+      - name: phr-${MAIA3_NAMESPACE}-service-upload
+        image: ${PHR_REGISTRY}/phr-${MAIA3_NAMESPACE}-service-upload:v${BUILD_NUMBER}
+        env:
+        - name: PORT
+          value: '3019'
+        - name: HOST
+          value: 0.0.0.0
+        - name: DATABASE_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-database:3001
+        - name: IMAGE_CONTAINER_NAME
+          value: ${PHR_MAIA3_IMAGE_CONTAINER_NAME}
+        - name: FILE_STORAGE_PATH
+          value: ${PHR_MAIA3_FILE_STORAGE_PATH}
+        - name: AZURE_ACCOUNT_NAME
+          value: ${PHR_MAIA3_AZURE_ACCOUNT_NAME}
+        - name: AZURE_STORAGE_CONNECTION_STRING
+          value: ${PHR_MAIA3_AZURE_STORAGE_CONNECTION_STRING}
+        - name: NODE_ENV
+          value: development
+        ports:
+        - containerPort: 3019
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phr-${MAIA3_NAMESPACE}-service-upload
+  namespace: $MAIA3_NAMESPACE
+spec:
+  selector:
+    app: phr-${MAIA3_NAMESPACE}-service-upload
+  ports:
+  - port: 3019

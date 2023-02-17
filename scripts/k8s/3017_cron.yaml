@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: $MAIA3_NAMESPACE
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phr-${MAIA3_NAMESPACE}-service-cron
+  namespace: $MAIA3_NAMESPACE
+spec:
+  selector:
+    matchLabels:
+      app: phr-${MAIA3_NAMESPACE}-service-cron
+  template:
+    metadata:
+      labels:
+        app: phr-${MAIA3_NAMESPACE}-service-cron
+    spec:
+      containers:
+      - name: phr-${MAIA3_NAMESPACE}-service-cron
+        image: ${PHR_REGISTRY}/phr-${MAIA3_NAMESPACE}-service-cron:v${BUILD_NUMBER}
+        env:
+        - name: PORT
+          value: '3017'
+        - name: HOST
+          value: 0.0.0.0
+        - name: DATABASE_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-database:3001
+        - name: NODE_ENV
+          value: development
+        - name: EMAIL_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-email:4000
+        - name: SMOKE_REMINDER_SCHEDULE
+          value: '0 0 0 * * * '
+        - name: DATABASE_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-database:3001
+        - name: AUTH_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-authentication:3002
+        - name: ALCOHOL_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-alcohol:3004
+        - name: SLEEP_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-sleep:3005
+        - name: MOOD_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-mood:3006
+        - name: SMOKE_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-smoke:3007
+        - name: BMI_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-bmi:3008
+        - name: BLOOD_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-blood:3009
+        - name: TEMPERATURE_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-temperature:3010
+        - name: PROBLEM_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-problem:3011
+        - name: PAIN_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-pain:3012
+        - name: COPING_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-coping:3013
+        - name: DIARY_URL
+          value:  http://phr-${MAIA3_NAMESPACE}-service-diary:3014
+        - name: EMAIL_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-email:4000
+        - name: USER_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-user:3003
+        - name: CACHE_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-cache:4001
+        - name: BMI_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: ALCOHOL_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: DIARY_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: SLEEP_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: SMOKE_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: PAIN_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: PROBLEM_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: MOOD_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: TEMPERATURE_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: BLOOD_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: COPING_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: ACCOUNT_CONTACT_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: ACCOUNT_PERSONAL_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: TABLE_CRON_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: GOAL_URL
+          value: http://phr-${MAIA3_NAMESPACE}-service-goal:3020
+        - name: GOAL_COMPLETED_SCHEDULE
+          value: '59 11 * * *'
+        - name: EVENT_REMINDER_SCHEDULE
+          value: '* * * * *'
+        - name: BMI_FHIR_SYNC_SCHEDULE
+          value : '0 0 0 * * *'
+        - name: ACCOUNT_HEALTH_FHIR_SYNC_SCHEDULE
+          value: '0 0 0 * * *'
+        - name: NOTIFICATION_SCHEDULE
+          value: '* * * * *'
+        - name: NOTIFICATION_URL
+          value: 'http://phr-${MAIA3_NAMESPACE}-service-notification:3022'
+        ports:
+        - containerPort: 3017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phr-${MAIA3_NAMESPACE}-service-cron
+  namespace: $MAIA3_NAMESPACE
+spec:
+  selector:
+    app: phr-${MAIA3_NAMESPACE}-service-cron
+  ports:
+  - port: 3017

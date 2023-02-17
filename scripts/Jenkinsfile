@@ -1,0 +1,346 @@
+pipeline {
+  agent any
+  stages {
+    stage('Build Services 1') {
+      parallel {
+        stage('Build goal') {
+          when {
+            changesin "./goal"
+          }
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/goal", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-goal:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-goal:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build cron') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/cron", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-cron:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-cron:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build Controller 1') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/controller", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-controller:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-controller:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600 )
+          }
+        }
+      }
+    }
+
+    stage('Build Services 2') {
+      parallel {
+
+        stage('Build sleep') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/sleep", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-sleep:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-sleep:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build mood') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/mood", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-mood:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-mood:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build smoke') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/smoke", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-smoke:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-smoke:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+      }
+    }
+
+    stage('Build Services 3') {
+      parallel {
+
+        stage('Build bmi') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/bmi", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-bmi:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-bmi:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build Blood Pressure') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/blood", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-blood:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-blood_pressure:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build tempreature') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/temperature", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-temperature:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-temperature:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+      }
+    }
+
+    stage('Build Services 4') {
+      parallel {
+        
+        stage('Build diary') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/diary", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-diary:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-diary:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build health') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/health", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-health:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-health:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build circle') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/circle", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-circle:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-circle:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+      }
+    }
+
+    stage('Build Services 5') {
+      parallel {
+        stage('Build alcohol') {
+           steps {
+             acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/alcohol", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-alcohol:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-alcohol:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+           }
+        }
+        stage('Build problem') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/problem", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-problem:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-problem:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+      }
+    }
+
+    stage('Build Services 6') {
+      parallel {
+        stage('Build Database') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/database", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-database:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-database:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build User') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/user", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-user:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-user:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build appointment') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/appointment", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-appointment:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-appointment:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }        
+      }
+    }
+
+    stage('Build Services 7') {
+      parallel {
+         stage('Build upload') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/upload", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-upload:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-upload:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+          stage('Build notification') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/notification", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-notification:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-notification:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+      }
+    }
+
+    stage('Build Services 8') {
+      parallel {
+         stage('Build Cache') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/cache", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-cache:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-cache:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build Email') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/email", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-email:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-email:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build Resource') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/resource", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-resource:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-resource:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build pain') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/pain", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-pain:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-pain:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+      }
+    }
+
+    stage('Build Services 9') {
+      parallel {
+        stage('Build appsettings') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/app_settings", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-appsettings:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-appsettings:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build fitbit') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/fitbit", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-fitbit:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-fitbit:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+          }
+        }
+        stage('Build coping') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/coping", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-coping:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-coping:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+           }
+         }        
+      }
+    }
+    stage('Build Services 10 ') {
+      parallel {
+        stage('Build Authentication') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/auth", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-authentication:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-authentication:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
+             }
+        }
+      } 
+    }
+
+    stage('Deployment') {
+      parallel {
+        stage('Deploy Controller') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3000_controller.yaml')
+          }
+        }
+
+        stage('Deploy Database') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3001_database.yaml')
+          }
+        }
+        stage('Deploy resource') {
+        steps {
+          kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3021_resource.yaml')
+          }
+        }
+        stage('Deploy Authentication') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3002_authentication.yaml')
+          }
+        }
+
+        stage('Deploy User') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3003_user.yaml')
+          }
+        }
+
+        stage('Deploy alcohol') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3004_alcohol.yaml')
+          }
+        }
+
+        stage('Deploy sleep') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3005_sleep.yaml')
+          }
+        }
+
+        stage('Deploy mood') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3006_mood.yaml')
+          }
+        }
+
+        stage('Deploy smoke') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3007_smoke.yaml')
+          }
+        }
+
+        stage('Deploy Cache') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/4001_cache.yaml')
+          }
+        }
+        stage('Deploy email') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/4000_email.yaml')
+          }
+        }
+        stage('Deploy bmi') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3008_bmi.yaml')
+          }
+        }
+        stage('Deploy blood pressure') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3009_blood_pressure.yaml')
+          }
+        }
+        stage('Deploy temprature') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3010_temperature.yaml')
+          }
+        }
+        stage('Deploy problem') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3011_problem.yaml')
+          }
+        }
+        stage('Deploy pain') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3012_pain.yaml')
+          }
+        }
+        stage('Deploy coping') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3013_coping.yaml')
+          }
+        }
+        stage('Deploy diary') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3014_diary.yaml')
+          }
+        }
+        stage('Deploy health') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3015_health.yaml')
+          }
+        }
+        stage('Deploy appsettings') {
+        steps {
+          kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3018_appsettings.yaml')
+          }
+        }
+        stage('Deploy circle') {
+          steps {
+           kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3016_circle.yaml')
+          }
+        }
+        stage('Deploy upload') {
+        steps {
+          kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3019_upload.yaml')
+          }
+        }
+        stage('Deploy cron') {
+        steps {
+          kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3017_cron.yaml')
+          }
+        }
+
+        stage('Deploy goal') {
+          when {
+            changesin "./goal"
+          }
+        steps {
+          kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3020_goal.yaml')
+          }
+        }
+        
+        stage('Deploy notification') {
+        steps {
+          kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3022_notification.yaml')
+          }
+        }
+        stage('Deploy fitbit') {
+        steps {
+          kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3023_fitbit.yaml')
+          }
+        }
+        stage('Deploy appointment') {
+        steps {
+          kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3024_appointment.yaml')
+          }
+        }
+      }
+    }
+  }
+}

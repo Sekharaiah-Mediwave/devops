@@ -1,0 +1,197 @@
+pipeline {
+  agent any
+  stages {
+    stage('Build Services 1') {
+      parallel {
+
+        stage('Build Controller') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/controller", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-controller:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-controller:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG" )
+          }
+        }
+
+        stage('Build Database') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/database", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-database:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-database:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+
+        stage('Build Authentication') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/auth", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-authentication:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-authentication:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+
+        stage('Build Goals') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/goals", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-goals:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-goals:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+
+        stage('Build user') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/user", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-user:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-user:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+      }
+     }
+
+            stage('Build Services 2') {
+      parallel {
+
+        stage('Build email') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/email", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-email:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-email:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+
+        stage('Build sms') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/sms", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-sms:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-sms:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+
+        stage('Build job') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/job", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-job:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-job:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+        stage('Build myhealth') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/my_health", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-myhealth:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-myhealth:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+        stage('Build problem') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/problem", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-problem:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-problem:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+        stage('Build profile') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/profile", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-profile:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-profile:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+
+        stage('Build alcohol') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/alcohol", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-alcohol:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-alcohol:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+        stage('Build mood') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/mood", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-mood:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-mood:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+        stage('Build sleep') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/sleep", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-sleep:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-sleep:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+        stage('Build chatbot') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/chatbot", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-chatbot:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-chatbot:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+        stage('Build fitbit') {
+          steps {
+            acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/fitbit", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-fitbit:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.PHR2_NAMESPACE-service-fitbit:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG")
+          }
+        }
+
+      }
+    }
+
+    stage('Deployment') {
+      parallel {
+        stage('Deploy Controller') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3000_controller.yaml')
+          }
+        }
+
+        stage('Deploy Database') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3001_database.yaml')
+          }
+        }
+
+        stage('Deploy Authentication') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3002_authentication.yaml')
+          }
+        }
+
+        stage('Deploy Goal') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3003_goals.yaml')
+          }
+        }
+
+        stage('Deploy User') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3004_user.yaml')
+          }
+        }
+
+        stage('Deploy Email') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/4000_email.yaml')
+          }
+        }
+
+        stage('Deploy sms') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/4001_sms.yaml')
+          }
+        }
+
+        stage('Deploy job') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3005_job.yaml')
+          }
+        }
+        stage('Deploy myhealth') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/4002_myhealth.yaml')
+          }
+        }
+        stage('Deploy problem') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3006_problem.yaml')
+          }
+        }
+        stage('Deploy profile') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3007_profile.yaml')
+          }
+        }
+        stage('Deploy alcohol') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3008_alcohol.yaml')
+          }
+        }
+        stage('Deploy mood') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3009_mood.yaml')
+          }
+        }
+        stage('Deploy sleep') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3015_sleep.yaml')
+          }
+        }
+        stage('Deploy chatbot') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3011_chatbot.yaml')
+          }
+        }
+        stage('Deploy fitbit') {
+          steps {
+            kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3010_fitbit.yaml')
+          }
+        }
+      }
+    }
+
+  }
+}
