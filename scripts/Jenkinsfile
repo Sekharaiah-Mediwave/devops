@@ -5,7 +5,7 @@ pipeline {
       parallel {
         stage('Build goal') {
           when {
-            changesin "./goal"
+            changeRequest target: "*/goal/*"
           }
           steps {
             acrQuickTask(azureCredentialsId: "$env.AZURE_SP", local: "services/goal", imageNames: [[image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-goal:v$env.BUILD_NUMBER" ], [image: "$env.PHR_REGISTRY/phr-$env.MAIA3_NAMESPACE-service-goal:latest"]], registryName: "$env.AZURE_CONTAINER_REGISTRY", resourceGroupName: "$env.AZURE_RG", timeout:600)
@@ -318,7 +318,7 @@ pipeline {
 
         stage('Deploy goal') {
           when {
-            changesin "./goal"
+            changeRequest target: "*/goal/*"
           }
         steps {
           kubernetesDeploy(kubeConfig: [path:"$KUBERNETES_CONFIG"], configs: 'scripts/k8s/3020_goal.yaml')
