@@ -1,10 +1,9 @@
 pipeline {
     agent any
-
     stages {
         stage('Build and Deploy Service 1') {
             when {
-                changeset "./service1"
+                changeRequest target: "./service1"
             }
             steps {
                 sh 'cd service-1 && mvn clean package'
@@ -13,7 +12,7 @@ pipeline {
         }
         stage('Build and Deploy Service 2') {
             when {
-                changeset "./service2"
+                changeRequest target: "./service2"
             }
             steps {
                 sh 'cd service-2 && mvn clean package'
@@ -22,7 +21,7 @@ pipeline {
         }
         stage('Build and Deploy Service 3') {
             when {
-                changeset "./sevice3"
+                changeRequest target: "./sevice3"
             }
             steps {
                 sh 'cd service-3 && mvn clean package'
@@ -31,7 +30,7 @@ pipeline {
         }
         stage('Build and Deploy Service 4') {
             when {
-                changeset "./service4"
+                changeRequest target: "./service4"
             }
             steps {
                 sh 'cd service-4 && mvn clean package'
@@ -40,7 +39,7 @@ pipeline {
         }
         stage('Build and Deploy Service 5') {
             when {
-                changeset "./service5"
+                changeRequest target: "./service5"
             }
             steps {
                 sh 'cd service-5 && mvn clean package'
