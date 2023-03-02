@@ -1,0 +1,22 @@
+@RestController
+@RequestMapping("/facilities")
+public class FacilityController {
+
+    @Autowired
+    private FacilityRepository facilityRepository;
+
+    @GetMapping
+    public List<Facility> getFacilities() {
+        return facilityRepository.findAll();
+    }
+
+    @PostMapping
+    public void createFacility(@RequestBody Facility facility) {
+        facilityRepository.save(facility);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteFacility(@PathVariable Long id) {
+        facilityRepository.deleteById(id);
+    }
+}

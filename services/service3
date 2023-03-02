@@ -1,0 +1,18 @@
+@RestController
+@RequestMapping("/procedures")
+public class ProcedureController {
+
+    @Autowired
+    private ProcedureRepository procedureRepository;
+
+    @GetMapping
+    public List<Procedure> getProcedures() {
+        return procedureRepository.findAll();
+    }
+
+    @PostMapping
+    public void createProcedure(@RequestBody Procedure procedure) {
+        procedureRepository.save(procedure);
+    }
+
+    @DeleteMapping("/{
