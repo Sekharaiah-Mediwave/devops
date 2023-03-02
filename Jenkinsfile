@@ -14,7 +14,6 @@ pipeline {
         stage('Build and Deploy Service 2') {
             when {
                 changeset "./service2"
- 
             }
             steps {
                 sh 'cd service-2 && mvn clean package'
