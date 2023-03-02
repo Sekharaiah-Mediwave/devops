@@ -18,6 +18,5 @@ public class AppointmentController {
     @DeleteMapping("/{id}")
     public void deleteAppointment(@PathVariable Long id) {
         appointmentRepository.deleteById(id);
-        jjjjjj
     }
 }
