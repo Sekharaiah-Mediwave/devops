@@ -4,11 +4,7 @@ pipeline {
     stages {
         stage('Build and Deploy Service 1') {
             when {
-<<<<<<< HEAD
-                changesetRequest "./service1"
-=======
                 changeset "./service1"
->>>>>>> a7a88a7084b2aa76e9a80e70fe1a52506cd95066
             }
             steps {
                 sh 'cd service-1 && mvn clean package'
@@ -17,11 +13,8 @@ pipeline {
         }
         stage('Build and Deploy Service 2') {
             when {
-<<<<<<< HEAD
-                changesetRequest target "./service2"
-=======
                 changeset "./service2"
->>>>>>> a7a88a7084b2aa76e9a80e70fe1a52506cd95066
+ 
             }
             steps {
                 sh 'cd service-2 && mvn clean package'
@@ -30,11 +23,7 @@ pipeline {
         }
         stage('Build and Deploy Service 3') {
             when {
-<<<<<<< HEAD
                 changeset "./sevice3"
-=======
-                changeset "./service3"
->>>>>>> a7a88a7084b2aa76e9a80e70fe1a52506cd95066
             }
             steps {
                 sh 'cd service-3 && mvn clean package'
