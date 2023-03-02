@@ -1,0 +1,23 @@
+@RestController
+@RequestMapping("/appointments")
+public class AppointmentController {
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @GetMapping
+    public List<Appointment> getAppointments() {
+        return appointmentRepository.findAll();
+    }
+
+    @PostMapping
+    public void createAppointment(@RequestBody Appointment appointment) {
+        appointmentRepository.save(appointment);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAppointment(@PathVariable Long id) {
+        appointmentRepository.deleteById(id);
+        jjjjjj
+    }
+}
