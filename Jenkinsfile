@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build and Deploy Service 1') {
             when {
-                changeset "service-1/**"
+                changeset "./service1"
             }
             steps {
                 sh 'cd service-1 && mvn clean package'
@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Build and Deploy Service 2') {
             when {
-                changeset "service-2/**"
+                changeset "./service2"
             }
             steps {
                 sh 'cd service-2 && mvn clean package'
@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Build and Deploy Service 3') {
             when {
-                changeset "service-3/**"
+                changeset "./service3"
             }
             steps {
                 sh 'cd service-3 && mvn clean package'
@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Build and Deploy Service 4') {
             when {
-                changeset "service-4/**"
+                changeset "./service4"
             }
             steps {
                 sh 'cd service-4 && mvn clean package'
@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Build and Deploy Service 5') {
             when {
-                changeset "service-5/**"
+                changeset "./service5"
             }
             steps {
                 sh 'cd service-5 && mvn clean package'
