@@ -18,6 +18,5 @@ public class FacilityController {
     @DeleteMapping("/{id}")
     public void deleteFacility(@PathVariable Long id) {
         facilityRepository.deleteById(id);
-        jsjdjdjdjdjdjdjdjdjdjdj
     }
 }
